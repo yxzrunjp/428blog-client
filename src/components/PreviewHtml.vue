@@ -7,12 +7,15 @@
 import VMdPreviewHtml from '@kangc/v-md-editor/lib/preview-html';
 import '@kangc/v-md-editor/lib/style/preview-html.css';
 import '@kangc/v-md-editor/lib/theme/style/github.css';// 引入使用主题的样式
-import hljs from 'highlight.js';//atom-one-light
+// import hljs from 'highlight.js';//atom-one-light
 import img from '@/assets/img/placeholder.png'
 
 import { watch, nextTick,onBeforeUnmount } from 'vue'
 import { throttling } from '@/utils/commonFn.js'
 import { useScroll } from '@/utils/hooks.js'
+
+import hljs from '@/utils/hljs.js'
+
 const { scrollTop } = useScroll()
 const props = defineProps({
     html: {
