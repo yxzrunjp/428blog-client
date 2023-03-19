@@ -11,7 +11,7 @@
                 }}</router-link></span>
             </div>
             <article>
-                <PreviewHtml :html="blogInfo.content" />
+                <PreviewHtml :html="blogInfo.content" @load="htmlLoad" @click="previewClick" />
             </article>
         </div>
         <aside :style="{ transform: `translateY(${scrollTop}px)` }">
@@ -36,105 +36,51 @@
                 </template>
             </AsideContent>
         </aside>
+        <ImagePreview :urlList="urlList" :showIdx="showIdx" :show="showImg" @closeImg="closeImg" />
     </div>
 </template>
 
 <script setup>
 import PreviewHtml from '@/components/PreviewHtml.vue';
-import { ref, reactive, nextTick, onBeforeUnmount } from 'vue';
+import ImagePreview from '@/components/ImagePreview.vue';
+import { ref, reactive } from 'vue';
 import { useRoute } from 'vue-router';
 import { useScroll } from '@/utils/hooks'
 import api from '@/api';
-import hljs from 'highlight.js';
-import img from '@/assets/img/placeholder.png'
-import { throttling } from '@/utils/commonFn.js'
 const route = useRoute()
 const blogId = ref(route.params.blogId)
 const blogInfo = reactive({})
 
-// 高亮代码
-const highlightCode = () => {
-    const all = document.querySelectorAll('pre code')
-    all.forEach(el => {
-        hljs.highlightElement(el);
-    })
+const menus = reactive([])//目录
+const urlList = reactive([])//图片url
+const showImg = ref(false) //是否放大图片
+const showIdx = ref(null) //显示索引
+// 文章内容显示完成回调
+const htmlLoad = (menuArr,imgs)=>{
+    menus.splice(0,menus.length,...menuArr)
+    urlList.splice(0,urlList.length,...imgs)
+}
+// 文章图片点击处理
+const previewClick = (e) => {
+    if (e.target.tagName === 'IMG') {
+        // 获取图片url集合
+        showIdx.value = urlList.findIndex(el => {
+            return el === e.target.getAttribute('data-url')
+        })
+        // 放大图片
+        showImg.value = true
+    }
+}
+const closeImg = () => {
+    showImg.value = false
+    showIdx.value = null
 }
 
-// 目录
-const menus = reactive([])
-// 获取目录
-const getTitleEl = () => {
-    const hTag = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
-    const children = document.querySelector('.github-markdown-body').children
-    let temp = Array.from(children)
-    temp.forEach((el, idx) => {
-        if (hTag.includes(el.tagName.toLowerCase())) {
-            const id = 'node-' + idx
-            el.setAttribute('id', id)
-            menus.push({
-                id,
-                title: el.innerText,
-                level: Number(el.tagName.slice(1)),
-            })
-        }
-    })
-}
 // 锚点跳转
 const handleJump = (item) => {
     const { id } = item
     document.location.hash = '#' + id
 }
-
-// 获取图片
-let imgChildren = []
-// 窗口高度
-const vHeight = document.documentElement.clientHeight || document.body.clientHeight
-// 获取图片
-const getImg = () => {
-    imgChildren = document.querySelectorAll('.github-markdown-body p img')
-    imgChildren.forEach(el => {
-        const tempSrc = el.getAttribute('src')
-        el.setAttribute('data-url', tempSrc)
-        setImgAttr(el, img, '400px', '300px')
-    })
-    throttlingScroll()
-    document.addEventListener('scroll', throttlingScroll)
-}
-// 设置图片属性
-const setImgAttr = (el, src, width, height) => {
-    el.style.display = 'none'
-    el.src = src
-    el.style.width = width
-    el.style.height = height
-    el.style.display = 'inline'
-}
-// 页面滚动事件
-const scrollHandler = () => {
-    // 滚动的距离 + 上视口的距离 = 图片距离顶部的距离
-    const pageScroll = document.documentElement.scrollTop || document.body.scrollTop
-    imgChildren.forEach(el => {
-        const offsetTop = el.offsetTop
-        if (offsetTop < vHeight + pageScroll + 100) {
-            const imgObj = new Image()
-            imgObj.src = el.getAttribute('data-url')
-            imgObj.onload = () => {
-                setImgAttr(el, el.getAttribute('data-url'), '', '')
-            }
-        }
-    })
-}
-// 节流处理
-const throttlingScroll = throttling(500, scrollHandler)
-onBeforeUnmount(() => {
-    document.removeEventListener('scroll', throttlingScroll)
-})
-
-
-
-
-
-
-
 
 // 获取博客内容
 const getBlogDetail = async () => {
@@ -142,16 +88,6 @@ const getBlogDetail = async () => {
     if (!result)
         return
     Object.assign(blogInfo, result.data)
-
-    // 富文本编辑器的代码没有内联样式，需要自己额外做处理
-    nextTick(() => {
-        if (blogInfo.editorType === 0) {
-            // 视图更新完毕后再高亮代码
-            highlightCode()
-        }
-        getImg()
-        getTitleEl()
-    })
 }
 
 const categoryList = reactive([])

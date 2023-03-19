@@ -35,7 +35,7 @@
                         }}</router-link></span>
             </div>
             <article>
-                <PreviewHtml :html="blogInfo.content" />
+                <PreviewHtml :html="blogInfo.content" @load="htmlLoad" @click="previewClick" />
             </article>
 
             <div class="director" :style="{ transform: `translateY(${scrollTop}px)` }">
@@ -50,7 +50,7 @@
                     <template v-if="menus.length">
                         <div class="item" :style="{ paddingLeft: `${(item.level) * 10}px` }" v-for="item, idx in menus"
                             :key="idx" @click="menuClick(item)">
-                            {{ item.label }}
+                            {{ item.title }}
                         </div>
                     </template>
                     <div v-else class="not-menu">
@@ -59,29 +59,19 @@
                 </div>
             </div>
         </div>
+        <ImagePreview :urlList="urlList" :showIdx="showIdx" :show="showImg" @closeImg="closeImg" />
     </div>
 </template>
 
 <script setup>
 import Cover from '@/components/Cover.vue'
 import PreviewHtml from '@/components/PreviewHtml.vue';
-import { reactive, ref, nextTick, onBeforeUnmount } from 'vue'
+import ImagePreview from '@/components/ImagePreview.vue';
+import { reactive, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useScroll } from '@/utils/hooks'
 import { ArrowUp, ArrowDown } from '@element-plus/icons-vue';
 import api from '@/api'
-import hljs from 'highlight.js';
-import img from '@/assets/img/placeholder.png'
-import { throttling } from '@/utils/commonFn.js'
-import { usePageInfoStore } from '@/store/usePageInfoStore.js'
-const pageInfoStore = usePageInfoStore()
-// 高亮代码
-const highlightCode = () => {
-    const all = document.querySelectorAll('pre code')
-    all.forEach(el => {
-        hljs.highlightElement(el);
-    })
-}
 
 const route = useRoute()
 const id = route.params.id
@@ -119,72 +109,34 @@ const menuClick = (item) => {
     const { id } = item
     document.location.hash = '#' + id
 }
-const menus = reactive([])
-// 获取导航菜单
-const getMenu = () => {
-    if (menus.length) {
-        menus.splice(0, menus.length)
+
+
+
+const menus = reactive([])//目录
+const urlList = reactive([])//图片url
+const showImg = ref(false) //是否放大图片
+const showIdx = ref(null) //显示索引
+// 文章内容显示完成回调
+const htmlLoad = (menuArr,imgs)=>{
+    menus.splice(0,menus.length,...menuArr)
+    urlList.splice(0,urlList.length,...imgs)
+}
+// 文章图片点击处理
+const previewClick = (e) => {
+    if (e.target.tagName === 'IMG') {
+        // 获取图片url集合
+        showIdx.value = urlList.findIndex(el => {
+            return el === e.target.getAttribute('data-url')
+        })
+        // 放大图片
+        showImg.value = true
     }
-    const titleArr = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
-    const element = document.querySelector('.github-markdown-body')
-    const children = Array.from(element.children)
-    children.forEach((el, idx) => {
-        const tagName = el.tagName.toLowerCase()
-        if (titleArr.includes(tagName)) {
-            const id = 'node-' + idx
-            el.setAttribute('id', id)
-            const level = Number(tagName.slice(1))
-            menus.push({
-                label: el.innerText,
-                level,
-                id: id
-            })
-        }
-    })
+}
+const closeImg = () => {
+    showImg.value = false
+    showIdx.value = null
 }
 
-let imgChildren = []
-// 窗口高度
-const vHeight = (document.documentElement.clientHeight || document.body.clientHeight) - pageInfoStore.topPartHeight
-// 获取图片
-const getImg = () => {
-    imgChildren = document.querySelectorAll('.github-markdown-body p img')
-    imgChildren.forEach(el => {
-        const tempSrc = el.getAttribute('src')
-        el.setAttribute('data-url', tempSrc)
-        setImgAttr(el, img, '400px', '300px')
-    })
-    throttlingScroll()
-    document.addEventListener('scroll', throttlingScroll)
-}
-// 设置图片属性
-const setImgAttr = (el, src, width, height) => {
-    el.style.display = 'none'
-    el.src = src
-    el.style.width = width
-    el.style.height = height
-    el.style.display = 'inline'
-}
-// 页面滚动事件
-const scrollHandler = () => {
-    // 滚动的距离 + 上视口的距离 = 图片距离顶部的距离
-    const pageScroll = document.documentElement.scrollTop || document.body.scrollTop
-    imgChildren.forEach(el => {
-        const offsetTop = el.offsetTop
-        if (offsetTop < vHeight + pageScroll + 100) {
-            const imgObj = new Image()
-            imgObj.src = el.getAttribute('data-url')
-            imgObj.onload = () => {
-                setImgAttr(el, el.getAttribute('data-url'), '', '')
-            }
-        }
-    })
-}
-// 节流处理
-const throttlingScroll = throttling(500, scrollHandler)
-onBeforeUnmount(() => {
-    document.removeEventListener('scroll', throttlingScroll)
-})
 
 
 // 获取专题详情
@@ -197,25 +149,14 @@ const getSpecialDetail = async () => {
 // 获取博客详情
 const blogInfo = reactive({})
 const getBlogDetail = async (blogId) => {
-    document.removeEventListener('scroll', throttlingScroll)
     const result = await api.getBlogDetail({
         blogId
     })
     if (!result)
         return
     Object.assign(blogInfo, result.data)
-    nextTick(() => {
-        // 富文本编辑器的代码没有内联样式，需要自己额外做处理
-        if (blogInfo.editorType === 0) {
-            // 视图更新完毕后再高亮代码
-            highlightCode()
-        }
-        // 获取目录
-        getMenu()
-        // 获取图片
-        getImg()
-    })
 }
+
 const init = async () => {
     await getSpecialDetail()
     if (queryId) {
