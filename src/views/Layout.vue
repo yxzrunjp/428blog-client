@@ -2,7 +2,7 @@
     <div class="layout"
         :style="{ minWidth: pageInfoStore.mainWidth + 'px', paddingTop: pageInfoStore.topPartHeight + `px`, }">
         <header :style="{ height: pageInfoStore.headerHeight + 'px' }">
-            <div class="header-nav" :style="{ width: pageInfoStore.mainWidth + 'px' }">
+            <div class="header-nav" :style="{ maxWidth: pageInfoStore.mainWidth + 'px' }">
                 <router-link class="nav-logo" :to="'/'">
                     <img src="../assets/img/cloud.png">
                 </router-link>
@@ -103,9 +103,6 @@ init()
             align-items: center;
 
             .nav-logo {
-                // color: rgb(111, 225, 225);
-                // font-weight: bold;
-                // font-size: 30px;
                 font-size: 0;
 
                 img {
