@@ -25,7 +25,6 @@
                     <el-empty v-else :image-size="300" :description="'暂无数据'"></el-empty>
                 </template>
             </el-skeleton>
-
         </div>
         <!-- 侧边 -->
         <aside :style="{ transform: `translateY(${scrollTop}px)` }">
@@ -209,23 +208,6 @@ init()
             padding: 20px;
         }
 
-        .blog-item-skeleton {
-            padding: 10px 0;
-            width: 100%;
-            display: flex;
-
-            .right {
-                margin-left: 10px;
-                flex-grow: 1;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-
-
-
-            }
-        }
-
         .el-empty {
             &:deep(.el-empty__description) {
                 p {
@@ -238,19 +220,6 @@ init()
     aside {
         width: 300px;
         margin-left: 10px;
-
-        .aside-item-skeleton {
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-
-            .right {
-                flex-grow: 1;
-                display: flex;
-                margin-left: 10px;
-                justify-content: space-between;
-            }
-        }
     }
 
     .blog-list,

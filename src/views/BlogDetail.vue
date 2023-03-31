@@ -28,10 +28,25 @@
             </AsideContent>
             <AsideContent :title="'分类专栏'" :to="'/category'">
                 <template #default>
-                    <template v-for="item in categoryList" :key="item.categoryId">
-                        <CategoryItem :to="'/category/' + item.categoryId" :count="item.blogCount" :cover="item.cover"
-                            :name="item.categoryName" />
-                    </template>
+                    <el-skeleton :loading="categoryListLoading" :count="1" :throttle="500">
+                        <template #template>
+                            <div class="aside-item-skeleton">
+                                <el-skeleton-item variant="image" style="width: 60px; height: 60px" />
+                                <div class="right">
+                                    <el-skeleton-item variant="text" style="width: 50%" />
+                                    <el-skeleton-item variant="text" style="width: 20px" />
+                                </div>
+                            </div>
+                        </template>
+                        <template #default>
+                            <template v-if="categoryList.length">
+                                <CategoryItem v-for="item in categoryList" :key="item.categoryId"
+                                    :to="'/category/' + item.categoryId" :count="item.blogCount" :cover="item.cover"
+                                    :name="item.categoryName" />
+                            </template>
+                            <el-empty v-else :image-size="40" :description="'暂无数据'"></el-empty>
+                        </template>
+                    </el-skeleton>
                 </template>
             </AsideContent>
         </aside>
@@ -84,18 +99,23 @@ const handleJump = (item) => {
 // 获取博客内容
 const getBlogDetail = async () => {
     const result = await api.getBlogDetail({ blogId: blogId.value })
-    if (!result)
+    if (!result) {
         return
+    }
     Object.assign(blogInfo, result.data)
 }
 
 const categoryList = reactive([])
+const categoryListLoading = ref(true)
 // 获取分类专栏
 const getCategory = async () => {
+    categoryListLoading.value = true
     const result = await api.loadCategory({ pageSize: 3 })
-    if (!result)
+    if (!result) {
         return
-    Object.assign(categoryList, result.data)
+    }
+    categoryList.splice(0, categoryList.length, ...result.data)
+    categoryListLoading.value = false
 }
 
 // 滚动

@@ -52,7 +52,9 @@ const prop = defineProps({
         justify-content: flex-start;
         align-items: center;
         font-size: 14px;
-        color: #4bcffa;
+        .category-title{
+            color: #4bcffa;
+        }
 
         .category-cover {
             width: 60px;
