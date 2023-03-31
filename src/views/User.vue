@@ -38,9 +38,9 @@
 <script setup>
 import PreviewHtml from '@/components/PreviewHtml.vue';
 import api from '@/api'
-import { reactive, getCurrentInstance, ref } from 'vue';
+import { reactive, getCurrentInstance, ref, inject } from 'vue';
 const { proxy } = getCurrentInstance()
-
+const settings = inject('settings')
 const users = reactive([])
 const listLoading = ref(true)
 const getUser = async () => {
@@ -50,7 +50,9 @@ const getUser = async () => {
         return
     }
     users.splice(0, users.length, ...result.data)
-    listLoading.value = false
+    setTimeout(() => {
+        listLoading.value = false
+    }, settings.skeletonDelayTime)
 }
 const init = async () => {
     await getUser()
@@ -116,4 +118,5 @@ init()
 
         }
     }
-}</style>
+}
+</style>

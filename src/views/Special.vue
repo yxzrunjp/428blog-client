@@ -32,9 +32,10 @@
 
 <script setup>
 import CategoryCard from '@/components/CategoryCard.vue'
-import { reactive, ref } from 'vue'
+import { reactive, ref, inject } from 'vue'
 import api from '@/api'
 
+const settings = inject('settings')
 // 获取专题
 const specialList = reactive({
     list: [],
@@ -55,7 +56,9 @@ const getSpecialList = async () => {
         return
     }
     Object.assign(specialList, result.data)
-    listLoading.value = false
+    setTimeout(() => {
+        listLoading.value = false
+    }, settings.skeletonDelayTime)
 }
 const init = async () => {
     await getSpecialList()

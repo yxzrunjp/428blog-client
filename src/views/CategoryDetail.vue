@@ -87,10 +87,11 @@
 
 <script setup>
 import Cover from '@/components/Cover.vue'
-import { reactive, ref, watch } from 'vue';
+import { reactive, ref, watch, inject } from 'vue';
 import { useRoute } from 'vue-router'
 import { useScroll } from '@/utils/hooks'
 import api from '@/api'
+const settings = inject('settings')
 const route = useRoute()
 const categoryId = ref(route.params.categoryId)
 
@@ -114,7 +115,9 @@ const getBlogList = async () => {
         return
     }
     Object.assign(blogList, result.data)
-    blogListLoading.value = false
+    setTimeout(() => {
+        blogListLoading.value = false
+    }, settings.skeletonDelayTime)
 }
 const handleCurrentChange = async (page) => {
     blogList.pageNo = page
@@ -136,7 +139,10 @@ const getCategory = async () => {
         return el.categoryId == categoryId.value
     })
     Object.assign(currentCategoryObj, temp)
-    loading.value = false
+    setTimeout(() => {
+        loading.value = false
+    }, settings.skeletonDelayTime)
+
 }
 
 // 滚动

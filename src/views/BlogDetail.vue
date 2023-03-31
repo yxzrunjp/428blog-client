@@ -57,10 +57,11 @@
 <script setup>
 import PreviewHtml from '@/components/PreviewHtml.vue';
 import ImagePreview from '@/components/ImagePreview.vue';
-import { ref, reactive } from 'vue';
+import { ref, reactive,inject } from 'vue';
 import { useRoute } from 'vue-router';
 import { useScroll } from '@/utils/hooks'
 import api from '@/api';
+const settings = inject('settings')
 const route = useRoute()
 const blogId = ref(route.params.blogId)
 const blogInfo = reactive({})
@@ -115,7 +116,9 @@ const getCategory = async () => {
         return
     }
     categoryList.splice(0, categoryList.length, ...result.data)
-    categoryListLoading.value = false
+    setTimeout(() => {
+        categoryListLoading.value = false
+    }, settings.skeletonDelayTime)
 }
 
 // 滚动

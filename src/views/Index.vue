@@ -102,10 +102,10 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue';
+import { reactive, ref, inject } from 'vue';
 import { useScroll } from '@/utils/hooks'
 import api from '@/api'
-
+const settings = inject('settings')
 const blogList = reactive({
     list: [],
     pageNo: 1,
@@ -125,7 +125,9 @@ const getBlogList = async () => {
         return
     }
     Object.assign(blogList, result.data)
-    blogListLoading.value = false
+    setTimeout(() => {
+        blogListLoading.value = false
+    }, settings.skeletonDelayTime)
 }
 const handleCurrentChange = async (page) => {
     blogList.pageNo = page
@@ -142,7 +144,10 @@ const getCategory = async () => {
         return
     }
     categoryList.splice(0, categoryList.length, ...result.data)
-    categoryListLoading.value = false
+    setTimeout(() => {
+        categoryListLoading.value = false
+    }, settings.skeletonDelayTime)
+
 }
 
 // 获取专题
@@ -157,10 +162,14 @@ const specialListLoading = ref(true)
 const getSpecialList = async () => {
     specialListLoading.value = true
     const result = await api.loadSpecial({ pageSize: 3 })
-    if (!result)
+    if (!result) {
         return
+    }
     Object.assign(specialList, result.data)
-    specialListLoading.value = false
+    setTimeout(() => {
+        specialListLoading.value = false
+    }, settings.skeletonDelayTime)
+
 }
 
 // 获取成员
@@ -173,7 +182,9 @@ const getMember = async () => {
         return
     }
     members.splice(0, members.length, ...result.data)
-    membersListLoading.value = false
+    setTimeout(() => {
+        membersListLoading.value = false
+    }, settings.skeletonDelayTime)
 }
 
 // 滚动

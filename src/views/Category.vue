@@ -27,9 +27,10 @@
 
 <script setup>
 import CategoryCard from '@/components/CategoryCard.vue'
-import { reactive, ref } from 'vue'
+import { reactive, ref, inject } from 'vue'
 import api from '@/api'
 
+const settings = inject('settings')
 const categoryList = reactive([])
 const listLoading = ref(true)
 // 获取分类专栏
@@ -40,7 +41,9 @@ const getCategory = async () => {
         return
     }
     categoryList.splice(0, categoryList.length, ...result.data)
-    listLoading.value = false
+    setTimeout(() => {
+        listLoading.value = false
+    }, settings.skeletonDelayTime)
 }
 const init = async () => {
     await getCategory()
