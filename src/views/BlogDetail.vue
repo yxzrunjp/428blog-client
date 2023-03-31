@@ -15,7 +15,7 @@
             </article>
         </div>
         <aside :style="{ transform: `translateY(${scrollTop}px)` }">
-            <AsideContent :title="'目录'" :to="'/'" :showMore="false">
+            <AsideContent :title="'目录'">
                 <template #default>
                     <div v-if="menus.length === 0" class="no-menu-tip">暂无目录</div>
                     <div v-else class="menus">
