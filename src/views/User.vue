@@ -15,7 +15,7 @@
                 <template v-if="users.length">
                     <div class="user-item" v-for="item in users" :key="item.userId">
                         <div class="user-avatar">
-                            <el-avatar :size="150" :src="proxy.globalInfo.imageUrl + item.avatar">
+                            <el-avatar :size="150" :src="globalInfo.imageUrl + item.avatar">
                                 <span :style="{ fontSize: '20px' }">暂无头像</span>
                             </el-avatar>
                         </div>
@@ -38,9 +38,10 @@
 <script setup>
 import PreviewHtml from '@/components/PreviewHtml.vue';
 import api from '@/api'
-import { reactive, getCurrentInstance, ref, inject } from 'vue';
-const { proxy } = getCurrentInstance()
+import { reactive, ref, inject } from 'vue';
 const settings = inject('settings')
+const globalInfo = inject('globalInfo')
+
 const users = reactive([])
 const listLoading = ref(true)
 const getUser = async () => {

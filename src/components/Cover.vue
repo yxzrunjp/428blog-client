@@ -1,14 +1,12 @@
 <template>
-    <div v-if="src" class="cover" :style="{ backgroundImage: `url(${proxy.globalInfo.imageUrl + src})`, height, width }">
-        <!-- <img :src="proxy.globalInfo.imageUrl+src" v-if="src">
-            <span v-else>暂无封面</span> -->
+    <div v-if="src" class="cover" :style="{ backgroundImage: `url(${globalInfo.imageUrl + src})`, height, width }">
     </div>
     <div v-else class="cover" :style="{ width, height }">暂无封面</div>
 </template>
 
 <script setup>
-import { getCurrentInstance } from 'vue'
-const { proxy } = getCurrentInstance()
+import { inject } from 'vue'
+const globalInfo = inject('globalInfo')
 const props = defineProps({
     src: {
         type: String,

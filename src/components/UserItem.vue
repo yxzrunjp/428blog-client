@@ -1,7 +1,7 @@
 <template>
     <div class="user-item">
         <div class="user-avatar">
-            <el-avatar v-if="data.avatar" :size="50" :src="proxy.globalInfo.imageUrl + data.avatar" />
+            <el-avatar v-if="data.avatar" :size="50" :src="globalInfo.imageUrl + data.avatar" />
             <el-avatar v-else :size="50">头像</el-avatar>
         </div>
         <div class="user-info">
@@ -15,8 +15,8 @@
 </template>
 
 <script setup>
-import { getCurrentInstance } from 'vue'
-const { proxy } = getCurrentInstance()
+import { inject } from 'vue'
+const globalInfo = inject('globalInfo')
 const props = defineProps({
     data: {
         type: Object,

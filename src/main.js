@@ -6,8 +6,6 @@ import { createPinia } from 'pinia'
 
 // vue-router
 import router from '@/router'
-// utils
-import Request from '@/utils/Request'
 
 // components
 import BlogItem from '@/components/BlogItem.vue'
@@ -18,11 +16,6 @@ const app = createApp(App)
 
 app.use(router)
 app.use(createPinia())
-
-app.config.globalProperties.Request = Request
-app.config.globalProperties.globalInfo = {
-    imageUrl: '/api/file/getImage/',
-}
 
 app.component('BlogItem',BlogItem)
 app.component('AsideContent',AsideContent)

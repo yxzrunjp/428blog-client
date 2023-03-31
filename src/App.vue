@@ -14,7 +14,11 @@ const config = reactive({
 const settings = readonly({
   skeletonDelayTime: 500,
 })
+const globalInfo = readonly({
+  imageUrl: '/api/file/getImage/',
+})
 provide('settings', settings)
+provide('globalInfo', globalInfo)
 </script>
 
 <style lang="scss" scoped></style>
