@@ -2,7 +2,7 @@
     <div class="aside-content">
         <div class="aside-content-header">
             <div class="title">{{ title }}</div>
-            <router-link v-if="showMore" :to="to" class="more">更多&gt;&gt;</router-link>
+            <router-link v-if="to" :to="to" class="more">更多&gt;&gt;</router-link>
         </div>
         <div class="content">
             <slot></slot>
@@ -19,16 +19,9 @@ const prop = defineProps({
     to: {
         type: String,
         required: true
-    },
-    showMore:{
-        type:Boolean,
-        default:true,
     }
 })
-// const emit = defineEmits(['click'])
-// const handleClick = (e) => {
-//     emit('click', e)
-// }
+
 </script>
 
 <style lang="scss" scoped>
