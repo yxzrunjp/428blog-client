@@ -142,8 +142,9 @@ const closeImg = () => {
 // 获取专题详情
 const getSpecialDetail = async () => {
     const result = await api.getSpecialDetail({ categoryId: id })
-    if (!result)
+    if (!result){
         return
+    }
     Object.assign(specialData, result.data)
 }
 // 获取博客详情
@@ -152,8 +153,9 @@ const getBlogDetail = async (blogId) => {
     const result = await api.getBlogDetail({
         blogId
     })
-    if (!result)
+    if (!result){
         return
+    }
     Object.assign(blogInfo, result.data)
 }
 
