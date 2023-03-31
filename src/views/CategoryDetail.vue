@@ -3,7 +3,7 @@
 
         <div class="left">
             <!-- 分类简介 -->
-            <el-skeleton :loading="loading" :count="1" :throttle="500">
+            <el-skeleton :loading="loading" :count="1">
                 <template #template>
                     <div class="blog-item-skeleton">
                         <el-skeleton-item variant="image" style="width: 110px; height: 110px" />
@@ -29,7 +29,7 @@
                 </template>
             </el-skeleton>
             <!-- 博客列表 -->
-            <el-skeleton :loading="blogListLoading" :count="1" :throttle="500">
+            <el-skeleton :loading="blogListLoading" :count="1">
                 <template #template>
                     <div class="blog-item-skeleton">
                         <el-skeleton-item variant="image" style="width: 110px; height: 110px" />
@@ -60,7 +60,7 @@
         <aside :style="{ transform: `translateY(${scrollTop}px)` }">
             <AsideContent :title="'分类专栏'" :to="'/category'">
                 <template #default>
-                    <el-skeleton :loading="loading" :count="3" :throttle="500">
+                    <el-skeleton :loading="loading" :count="3">
                         <template #template>
                             <div class="aside-item-skeleton">
                                 <el-skeleton-item variant="image" style="width: 60px; height: 60px" />

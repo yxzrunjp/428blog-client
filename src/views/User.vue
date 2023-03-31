@@ -1,6 +1,6 @@
 <template>
     <div class="user-page">
-        <el-skeleton :loading="listLoading" :count="1" :throttle="500">
+        <el-skeleton :loading="listLoading" :count="1">
             <template #template>
                 <div class="blog-item-skeleton">
                     <el-skeleton-item variant="image" style="width: 150px; height: 150px" />

@@ -28,7 +28,7 @@
             </AsideContent>
             <AsideContent :title="'分类专栏'" :to="'/category'">
                 <template #default>
-                    <el-skeleton :loading="categoryListLoading" :count="1" :throttle="500">
+                    <el-skeleton :loading="categoryListLoading" :count="1">
                         <template #template>
                             <div class="aside-item-skeleton">
                                 <el-skeleton-item variant="image" style="width: 60px; height: 60px" />

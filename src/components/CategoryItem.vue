@@ -44,7 +44,6 @@ const prop = defineProps({
     justify-content: space-between;
     align-items: center;
     margin-top: 10px;
-    cursor: pointer;
 
     .left {
         flex-grow: 1;

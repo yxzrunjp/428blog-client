@@ -2,7 +2,7 @@
     <div class="index-page">
         <!-- 博客列表 -->
         <div class="blog-list">
-            <el-skeleton :loading="blogListLoading" :count="5" :throttle="500">
+            <el-skeleton :loading="blogListLoading" :count="5">
                 <template #template>
                     <div class="blog-item-skeleton">
                         <el-skeleton-item variant="image" style="width: 110px; height: 110px" />
@@ -30,7 +30,7 @@
         <aside :style="{ transform: `translateY(${scrollTop}px)` }">
             <AsideContent :title="'博客成员'" :to="'/user'">
                 <template #default>
-                    <el-skeleton :loading="membersListLoading" :count="1" :throttle="500">
+                    <el-skeleton :loading="membersListLoading" :count="1">
                         <template #template>
                             <div class="aside-item-skeleton">
                                 <el-skeleton-item variant="image" style="width: 60px; height: 60px" />
@@ -52,7 +52,7 @@
 
             <AsideContent :title="'分类专栏'" :to="'/category'">
                 <template #default>
-                    <el-skeleton :loading="categoryListLoading" :count="1" :throttle="500">
+                    <el-skeleton :loading="categoryListLoading" :count="1">
                         <template #template>
                             <div class="aside-item-skeleton">
                                 <el-skeleton-item variant="image" style="width: 60px; height: 60px" />
@@ -76,7 +76,7 @@
 
             <AsideContent :title="'专题'" :to="'/special'">
                 <template #default>
-                    <el-skeleton :loading="specialListLoading" :count="1" :throttle="500">
+                    <el-skeleton :loading="specialListLoading" :count="1">
                         <template #template>
                             <div class="aside-item-skeleton">
                                 <el-skeleton-item variant="image" style="width: 60px; height: 60px" />
