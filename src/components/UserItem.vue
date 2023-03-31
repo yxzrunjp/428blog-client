@@ -1,17 +1,15 @@
 <template>
     <div class="user-item">
-
         <div class="user-avatar">
             <el-avatar v-if="data.avatar" :size="50" :src="proxy.globalInfo.imageUrl + data.avatar" />
             <el-avatar v-else :size="50">头像</el-avatar>
         </div>
-
-
         <div class="user-info">
-            <div class="user-name">{{ data.nickName }}</div>
+            <router-link :to="'/user'">
+                <div class="user-name">{{ data.nickName }}</div>
+            </router-link>
             <div class="user-profession">{{ data.profession || '' }}</div>
         </div>
-
         <div class="count">{{ data.blogCount }}篇</div>
     </div>
 </template>
@@ -34,6 +32,7 @@ const props = defineProps({
     align-items: center;
     // cursor: pointer;
     padding-top: 5px;
+
     .user-avatar {
         flex-shrink: 0;
     }

@@ -1,5 +1,4 @@
 import Request from '@/utils/Request'
-import { async } from '@kangc/v-md-editor'
 
 // 获取系统信息
 const getSysInfo = async () => {
@@ -12,7 +11,8 @@ const getSysInfo = async () => {
 const loadBlogList = async (params) => {
     return Request({
         url: '/view/loadBlogList',
-        params
+        params,
+        showLoading:false,
     })
 }
 
@@ -20,7 +20,8 @@ const loadBlogList = async (params) => {
 const loadCategory = async (params) => {
     return Request({
         url: '/view/loadCategory',
-        params
+        params,
+        showLoading:false,
     })
 }
 
@@ -28,7 +29,8 @@ const loadCategory = async (params) => {
 const loadSpecial = async (params) => {
     return Request({
         url: '/view/loadSpecial',
-        params
+        params,
+        showLoading:false,
     })
 }
 
@@ -44,7 +46,8 @@ const getSpecialDetail = async (params)=>{
 const loadTeamUser = async (params) => {
     return Request({
         url: '/view/loadTeamUser',
-        params
+        params,
+        showLoading:false,
     })
 }
 

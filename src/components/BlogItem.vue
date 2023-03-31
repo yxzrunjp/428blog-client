@@ -43,7 +43,6 @@ const prop = defineProps({
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        align-items: flex-start;
 
         .blog-title {
             color: #4bcffa;

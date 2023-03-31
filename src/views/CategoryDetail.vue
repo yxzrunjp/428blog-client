@@ -33,10 +33,8 @@
             <AsideContent :title="'分类专栏'" :to="'/category'">
                 <template #default>
                     <template v-for="item in categoryList" :key="item.categoryId">
-                        <router-link :to="'/category/' + item.categoryId">
-                            <CategoryItem :count="item.blogCount" :cover="item.cover" :name="item.categoryName"
-                                :active="item.categoryId == categoryId" />
-                        </router-link>
+                        <CategoryItem :to="'/category/' + item.categoryId" :count="item.blogCount" :cover="item.cover"
+                            :name="item.categoryName" :active="item.categoryId == categoryId" />
                     </template>
                 </template>
             </AsideContent>
@@ -114,6 +112,7 @@ watch(route, (newV) => {
 
     .left {
         width: calc(100% - 310px);
+
         .category {
             margin-bottom: 10px;
             padding: 15px !important;

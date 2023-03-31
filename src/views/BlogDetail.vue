@@ -29,9 +29,8 @@
             <AsideContent :title="'分类专栏'" :to="'/category'">
                 <template #default>
                     <template v-for="item in categoryList" :key="item.categoryId">
-                        <router-link :to="'/category/' + item.categoryId">
-                            <CategoryItem :count="item.blogCount" :cover="item.cover" :name="item.categoryName" />
-                        </router-link>
+                        <CategoryItem :to="'/category/' + item.categoryId" :count="item.blogCount" :cover="item.cover"
+                            :name="item.categoryName" />
                     </template>
                 </template>
             </AsideContent>
@@ -56,9 +55,9 @@ const urlList = reactive([])//图片url
 const showImg = ref(false) //是否放大图片
 const showIdx = ref(null) //显示索引
 // 文章内容显示完成回调
-const htmlLoad = (menuArr,imgs)=>{
-    menus.splice(0,menus.length,...menuArr)
-    urlList.splice(0,urlList.length,...imgs)
+const htmlLoad = (menuArr, imgs) => {
+    menus.splice(0, menus.length, ...menuArr)
+    urlList.splice(0, urlList.length, ...imgs)
 }
 // 文章图片点击处理
 const previewClick = (e) => {

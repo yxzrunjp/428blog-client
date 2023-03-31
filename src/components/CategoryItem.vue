@@ -2,11 +2,11 @@
     <div class="category-item">
         <div class="left">
             <div class="category-cover">
-                <Cover :src="cover" :height="'60px'" :width="'60px'"/>
+                <Cover :src="cover" :height="'60px'" :width="'60px'" />
             </div>
-            <div :class="['category-title',active?'active-title':'']">
+            <router-link :class="['category-title', active ? 'active-title' : '']" :to="to">
                 {{ name }}
-            </div>
+            </router-link>
         </div>
         <div class="right">{{ count }}篇</div>
     </div>
@@ -14,52 +14,60 @@
 
 <script setup>
 import Cover from '@/components/Cover.vue'
-const prop=defineProps({
-    count:{
-        type:Number,
-        default:0,
+const prop = defineProps({
+    count: {
+        type: Number,
+        default: 0,
     },
-    name:{
-        type:String,
-        default:'Name',
+    name: {
+        type: String,
+        default: 'Name',
     },
-    cover:{
-        type:String,
-        default:'',
+    cover: {
+        type: String,
+        default: '',
     },
-    active:{
-        type:Boolean,
-        default:false,
+    active: {
+        type: Boolean,
+        default: false,
+    },
+    to: {
+        type: String,
+        default: '/',
     }
 })
 </script>
 
 <style lang="scss" scoped>
-.category-item{
+.category-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 10px;
     cursor: pointer;
-    .left{
+
+    .left {
         flex-grow: 1;
         display: flex;
         justify-content: flex-start;
         align-items: center;
         font-size: 14px;
         color: #4bcffa;
-        .category-cover{
+
+        .category-cover {
             width: 60px;
             height: 60px;
             border-radius: 5px;
             overflow: hidden;
             margin-right: 5px;
         }
-        .active-title{
+
+        .active-title {
             color: #3742fa;
         }
     }
-    .right{
+
+    .right {
         flex-shrink: 0;
         width: 40px;
         font-size: 12px;
