@@ -63,7 +63,7 @@ init()
 
 <style lang="scss" scoped>
 .user-page {
-    padding: 15px;
+    // padding: 15px;
 
     .el-empty {
         &:deep(.el-empty__description) {
