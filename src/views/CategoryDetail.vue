@@ -167,6 +167,17 @@ watch(route, (newV) => {
     display: flex;
     justify-content: flex-start;
 
+    
+
+    .left>.blog-list,
+    .left>.category,
+    aside {
+        height: max-content;
+        padding: 0 15px;
+        border-radius: 5px;
+        background-color: #fff;
+    }
+
     .left {
         width: calc(100% - 310px);
 
@@ -236,19 +247,11 @@ watch(route, (newV) => {
         }
     }
 
-
     aside {
         width: 300px;
         margin-left: 10px;
+        padding-bottom: 5px;
     }
-
-    .left>.blog-list,
-    .left>.category,
-    aside {
-        height: max-content;
-        padding: 0 15px;
-        border-radius: 5px;
-        background-color: #fff;
-    }
+    
 }
 </style>

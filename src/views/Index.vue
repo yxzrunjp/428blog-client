@@ -231,6 +231,7 @@ init()
     aside {
         width: 300px;
         margin-left: 10px;
+        padding-bottom: 5px;
     }
 
     .blog-list,

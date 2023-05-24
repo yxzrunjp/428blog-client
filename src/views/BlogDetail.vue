@@ -57,7 +57,7 @@
 <script setup>
 import PreviewHtml from '@/components/PreviewHtml.vue';
 import ImagePreview from '@/components/ImagePreview.vue';
-import { ref, reactive,inject } from 'vue';
+import { ref, reactive, inject } from 'vue';
 import { useRoute } from 'vue-router';
 import { useScroll } from '@/utils/hooks'
 import api from '@/api';
@@ -137,6 +137,14 @@ init()
     display: flex;
     justify-content: flex-start;
 
+    .blog-content,
+    aside {
+        padding: 0 15px;
+        border-radius: 5px;
+        background-color: #fff;
+        height: max-content;
+    }
+
     .blog-content {
         width: calc(100% - 310px);
 
@@ -171,7 +179,7 @@ init()
     aside {
         width: 300px;
         margin-left: 10px;
-
+        padding-bottom: 5px;
         .no-menu-tip {
             font-size: 14px;
             line-height: 30px;
@@ -195,12 +203,6 @@ init()
         }
     }
 
-    .blog-content,
-    aside {
-        padding: 0 15px;
-        border-radius: 5px;
-        background-color: #fff;
-        height: max-content;
-    }
+
 }
 </style>
